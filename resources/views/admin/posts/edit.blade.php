@@ -66,30 +66,30 @@
               <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
-
+{{-- 
           <div class="form-group">
             <label>Categoria</label>
             <select type="text" name="category_id" class="form-control @error('category_id') is-invalid @enderror"
               placeholder="Inserisci il titolo">
               <option value=""></option>
           
-                {{-- <option value="{{}}"
+                <option value="{{}}"
                   {{ old('category_id', $post->category_id) === $category->id ? 'selected' : '' }}>{{ $category->name }}
-                </option> --}}
+                </option>
           
             </select>
             @error('category_id')
               <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-          </div>
+          </div> --}}
 
           <div class="form-group">
             <label>Tags</label>
             <select type="text" name="tags[]" class="form-control @error('tags') is-invalid @enderror" multiple>
-              {{-- @foreach ($tags as $tag)
+              @foreach ($tags as $tag)
                 <option value="{{ $tag->id }}" {{ $post->tags->contains($tag) ? 'selected' : '' }}>
                   {{ $tag->name }}</option>
-              @endforeach --}}
+              @endforeach
             </select>
             @error('tags')
               <div class="invalid-feedback">{{ $message }}</div>

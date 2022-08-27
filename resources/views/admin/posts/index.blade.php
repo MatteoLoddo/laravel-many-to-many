@@ -28,7 +28,7 @@
                                 <td>{{ $post->title }}</td>
                                 <td>{{ $post->slug }}</td>
                                 <td>{{$post->user->name}}</td>
-                                <td></td>
+                                <td>{{$post->tags->implode('name' , '-')}}</td>
                                 <td></td>
                                 <td>
                                     <a class="btn btn-info btn-sm"

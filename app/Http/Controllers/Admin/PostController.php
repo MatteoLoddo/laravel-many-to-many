@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Post;
 use App\Http\Controllers\Controller;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use illuminate\Support\Str;
@@ -65,8 +66,9 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
+        $tags = Tag::all();
 
-        return view('admin.posts.index', compact('posts'));
+        return view('admin.posts.index', compact('posts' , 'tags'));
     }
 
     /**
@@ -76,7 +78,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('tags'));
     }
 
     /**
@@ -92,14 +95,24 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|min:5',
             'content' => 'required|min:10',
+            "tags" => "nullable|exists:tags,id",
+
         ]);
 
         $post = new Post();
         $post->fill($validated);
         $post->user_id = Auth::user()->id;
-        
+
         $post->slug = $this->generateSlug($post->title);
+
+        
         $post->save();
+
+
+        if (key_exists("tags", $validated)) {
+            $post->tags()->attach($validated["tags"]);
+        }
+
 
         return redirect()->route('admin.posts.show', $post->slug);
     }
@@ -126,8 +139,9 @@ class PostController extends Controller
     public function edit(Request $request, $slug)
     {
         $post = $this->findBySlug($slug);
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post', 'tags'));
     }
 
     /**
@@ -139,20 +153,29 @@ class PostController extends Controller
      */
     public function update(Request $request, $slug)
     {
+
         $validated = $request->validate([
             'title' => 'required|min:5',
             'content' => 'required|min:10',
+            'tags' => 'nullable|exists:tags,id',
         ]);
+
         $post = $this->findBySlug($slug);
 
-        if ($validated['title'] !== $post->title){
-            $post->slug = $this->generateSlug($validated['title'] );
+        if ($validated['title'] !== $post->title) {
+            $post->slug = $this->generateSlug($validated['title']);
         }
-            
+        if (key_exists('tags', $validated)) {
 
+            $post->tags()->detach();
+            $post->tags()->attach($validated['tags']);
+        }else{
+            $post->tags()->detach();
 
+        }
 
         $post->update($validated);
+
         return redirect()->route('admin.posts.show', $post->slug);
     }
 

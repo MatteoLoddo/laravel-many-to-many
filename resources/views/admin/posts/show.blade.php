@@ -44,7 +44,7 @@
 
               <dt>Tags</dt>
               <dd>
-                {{-- {{ $post->tags->implode('name', ' - ') }} --}}
+                {{ $post->tags->implode('name', ' - ') }}
                 {{-- @foreach ($post->tags as $tag)
               {{ $tag->name }}
 
