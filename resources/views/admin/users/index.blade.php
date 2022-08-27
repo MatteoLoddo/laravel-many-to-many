@@ -13,9 +13,6 @@
                             <th>ID</th>
                             <th>Titolo</th>
                             <th>Email</th>
-                            <th>Indirizzo</th>
-                            <th>Numero</th>
-                            <th>Provincia</th>
                             {{-- <th class="text-center">Azioni</th> --}}
                         </tr>
                     </thead>
@@ -25,9 +22,7 @@
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{$user->details->address}}</td>
-                                <td>{{ $user->details->phone}}</td>
-                                <td>{{ $user->details->province}}</td>
+                                
 
                                 <td></td>
                                 <td>

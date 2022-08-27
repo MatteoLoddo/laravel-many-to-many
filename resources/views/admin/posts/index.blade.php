@@ -27,7 +27,7 @@
                                 <td>{{ $post->id }}</td>
                                 <td>{{ $post->title }}</td>
                                 <td>{{ $post->slug }}</td>
-                                <td></td>
+                                <td>{{$post->user->name}}</td>
                                 <td></td>
                                 <td></td>
                                 <td>

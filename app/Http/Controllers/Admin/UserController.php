@@ -12,8 +12,8 @@ class UserController extends Controller
     public function index(){
 
         $users = User::all();
-        $details = UserDetails::all();
-        return view('admin.users.index', compact('details' , 'users') );
+        // $details = UserDetails::all();
+        return view('admin.users.index', compact('users') );
     }
 
     public function show($id){
@@ -57,7 +57,7 @@ class UserController extends Controller
         $user->update($data);
 
         
-        return redirect()->route('admin.users.edit' , compact('user') );
+        return redirect()->route('admin.users.show' , compact('user') );
     }
 
     public function destroy($id){

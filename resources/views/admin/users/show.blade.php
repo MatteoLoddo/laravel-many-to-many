@@ -26,33 +26,8 @@
               <dd>{{ $user->name }}</dd>
               <dt>Email</dt>
               <dd>{{ $user->email }}</dd>
-              <dt>Citta</dt>
-              <dd></dd>
-
-              <dt>Autore</dt>
-              <dd></dd>
-
-              <dt>Categoria</dt>
-              <dd>
-                {{-- @if ($post->category)
-                  <a href="{{ route('admin.categories.posts', $post->category_id) }}">
-                    {{ $post->category->name }}
-                  </a>
-                @endif --}}
-              </dd>
-
-              <dt>Tags</dt>
-              <dd>
-                {{-- {{ $post->tags->implode('name', ' - ') }} --}}
-                {{-- @foreach ($post->tags as $tag)
-              {{ $tag->name }}
-
-              @if (!$loop->last)
-                <span> -</span>
-              @endif
-            @endforeach --}}
-              </dd>
-
+              <dt>Indirizzo</dt>
+              <dd>{{$user->details->address}}</dd>
             </dl>
           </div>
         </div>
