@@ -73,8 +73,9 @@
               placeholder="Inserisci il titolo">
               <option value=""></option>
           
-                <option value="">
-                </option>
+                {{-- <option value="{{}}"
+                  {{ old('category_id', $post->category_id) === $category->id ? 'selected' : '' }}>{{ $category->name }}
+                </option> --}}
           
             </select>
             @error('category_id')
@@ -85,9 +86,10 @@
           <div class="form-group">
             <label>Tags</label>
             <select type="text" name="tags[]" class="form-control @error('tags') is-invalid @enderror" multiple>
-                <option value="" >
-                </option>
-              
+              {{-- @foreach ($tags as $tag)
+                <option value="{{ $tag->id }}" {{ $post->tags->contains($tag) ? 'selected' : '' }}>
+                  {{ $tag->name }}</option>
+              @endforeach --}}
             </select>
             @error('tags')
               <div class="invalid-feedback">{{ $message }}</div>

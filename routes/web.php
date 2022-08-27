@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,18 @@ Route::middleware('auth')
     Route::get('/','HomeController@index')->name('index');
 
     Route::resource('posts','PostController');
+
+    Route::get('users', 'UserController@index')->name('users.index');
+    Route::get('users/{user}edit', 'UserController@edit')->name('users.edit');
+    Route::get('users/{user}', 'UserController@show')->name('users.show');
+    
+    Route::get('users/{user}destroy' , 'UserController@destroy')->name('users.destroy');
+    Route::patch("/users/{user}", "UserController@update")->name("users.update");
+
+
+    // Route::resource('users', 'UserController');
+
+
 
 });
 
