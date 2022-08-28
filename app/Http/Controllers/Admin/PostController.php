@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Post;
 use App\Http\Controllers\Controller;
+use App\Mail\NewPostMail;
 use App\Tag;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use illuminate\Support\Str;
 
@@ -114,7 +116,9 @@ class PostController extends Controller
         if (key_exists("tags", $validated)) {
             $post->tags()->attach($validated["tags"]);
         }
+        
 
+        Mail::to($post->user)->send(new NewPostMail( $post));
 
         return redirect()->route('admin.posts.show', $post->slug);
     }
