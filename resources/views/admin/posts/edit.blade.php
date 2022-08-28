@@ -28,6 +28,7 @@
           @endif
         </div>
         <form action="{{ route('admin.posts.update', ['post' => $post->slug]) }}" method="post"
+          {{-- importante per inviare dati al server come UploadedFile --}}
           enctype="multipart/form-data">
 
           @csrf

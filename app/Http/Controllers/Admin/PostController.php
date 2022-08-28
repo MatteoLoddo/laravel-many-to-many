@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Post;
 use App\Http\Controllers\Controller;
 use App\Tag;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use illuminate\Support\Str;
 
 
@@ -68,7 +70,7 @@ class PostController extends Controller
         $posts = Post::orderBy('created_at', 'desc')->get();
         $tags = Tag::all();
 
-        return view('admin.posts.index', compact('posts' , 'tags'));
+        return view('admin.posts.index', compact('posts', 'tags'));
     }
 
     /**
@@ -105,7 +107,7 @@ class PostController extends Controller
 
         $post->slug = $this->generateSlug($post->title);
 
-        
+
         $post->save();
 
 
@@ -153,14 +155,30 @@ class PostController extends Controller
      */
     public function update(Request $request, $slug)
     {
-
         $validated = $request->validate([
             'title' => 'required|min:5',
             'content' => 'required|min:10',
             'tags' => 'nullable|exists:tags,id',
+            'cover_img' => 'nullable|image'
         ]);
-
         $post = $this->findBySlug($slug);
+
+
+        if (key_exists('cover_img', $validated)) {
+
+            // se il post ha gia un valore (quindi un immagine) 
+            // cancello quella vecchia 
+            // carico quella nuova
+            if ($post->cover_img) {
+
+                Storage::delete(($post->cover_img));
+            }
+            // ritorna il link interno dove si trova il file
+            $coverImg = Storage::put('/post_covers', $validated['cover_img']);
+            // salvo dentro i dati di questo post il link del file appena caricato
+            $post->cover_img = $coverImg;
+        }
+
 
         if ($validated['title'] !== $post->title) {
             $post->slug = $this->generateSlug($validated['title']);
@@ -169,9 +187,8 @@ class PostController extends Controller
 
             $post->tags()->detach();
             $post->tags()->attach($validated['tags']);
-        }else{
+        } else {
             $post->tags()->detach();
-
         }
 
         $post->update($validated);
@@ -188,6 +205,8 @@ class PostController extends Controller
     public function destroy($slug)
     {
         $post = $this->findBySlug($slug);
+
+        $post->tags()->detach();
         $post->delete();
 
         return redirect()->route('admin.posts.index');

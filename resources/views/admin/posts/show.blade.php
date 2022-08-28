@@ -15,7 +15,6 @@
             </svg> Tutti i posts
           </a>
         </div>
-
         <div class="row">
           <div class="col">
             {{-- <img class="img-fluid" src="{{ asset('storage/' . $post->cover_img) }}"> --}}
