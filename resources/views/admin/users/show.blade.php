@@ -27,7 +27,7 @@
               <dt>Email</dt>
               <dd>{{ $user->email }}</dd>
               <dt>Indirizzo</dt>
-              <dd>{{$user->details->address}}</dd>
+              <dd>{{$user->details ? $user->details->address : ""}}</dd>
             </dl>
           </div>
         </div>
